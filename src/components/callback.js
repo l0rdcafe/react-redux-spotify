@@ -50,7 +50,6 @@ class Callback extends React.Component {
     window.location = "/";
   };
   pausePreview = () => {
-    const { playing } = this.props.state;
     this.audio.pause();
     this.props.dispatch(setCurrSong({}));
   };
