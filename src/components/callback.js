@@ -51,6 +51,7 @@ class Callback extends React.Component {
   signOut = () => {
     this.props.dispatch(signOutSuccess());
     localStorage.removeItem("ACCESS_TOKEN");
+    this.pausePreview();
   };
   pausePreview = () => {
     this.audio.pause();
