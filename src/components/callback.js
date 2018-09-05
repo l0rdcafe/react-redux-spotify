@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Container, Heading, Text, Toolbar, ButtonOutline, ButtonCircle } from "rebass";
 import { setToken } from "../actions/token";
 import { signInSuccess, signInError, signOutSuccess } from "../actions/shared";
@@ -39,15 +41,16 @@ class Callback extends React.Component {
       }
     };
 
-    Promise.all([getUserInfo(options), getUserSongs(options)]).then(data => {
-      this.props.dispatch(setUser(data[0]));
-      this.props.dispatch(setUserSongs(data[1].items));
-    });
+    Promise.all([getUserInfo(options), getUserSongs(options)])
+      .then(data => {
+        this.props.dispatch(setUser(data[0]));
+        this.props.dispatch(setUserSongs(data[1].items));
+      })
+      .catch(err => this.props.dispatch(signInError(err)));
   };
   signOut = () => {
     this.props.dispatch(signOutSuccess());
     localStorage.removeItem("ACCESS_TOKEN");
-    window.location = "/";
   };
   pausePreview = () => {
     this.audio.pause();
@@ -68,13 +71,20 @@ class Callback extends React.Component {
     this.props.dispatch(setCurrSong({ name, artist }));
   };
   render() {
-    console.log(this.props.state);
-    const { display_name } = this.props.state.user;
-    const { songs, currSong } = this.props.state;
+    const { display_name: displayName } = this.props.state.user;
+    const { songs, currSong, error } = this.props.state;
+    let heading;
+    if (displayName) {
+      heading = `Welcome ${displayName}`;
+    } else if (error) {
+      heading = error.message;
+    } else {
+      heading = "Loading...";
+    }
     return (
       <Container p={4}>
-        <Heading mb={4} style={{ textAlign: "center" }}>
-          {display_name ? `Welcome ${display_name}` : "Loading..."}
+        <Heading mb={4} style={{ textAlign: "center" }} color={error ? "red" : "black"}>
+          {heading}
         </Heading>
         {songs.map(song => (
           <Toolbar key={song.track.id} bg="white" style={{ border: "1px solid black" }} color="black" mb={2}>
@@ -101,15 +111,36 @@ class Callback extends React.Component {
             </ButtonOutline>
           </Toolbar>
         ))}
-        {display_name ? (
-          <ButtonCircle style={{ cursor: "pointer" }} onClick={this.signOut}>
-            LOGOUT
-          </ButtonCircle>
+        {displayName ? (
+          <Link to="/">
+            <ButtonCircle style={{ cursor: "pointer" }} onClick={this.signOut}>
+              LOGOUT
+            </ButtonCircle>
+          </Link>
         ) : null}
+        {error && (
+          <Link to="/">
+            <ButtonCircle style={{ cursor: "pointer", display: "block", margin: "auto" }} onClick={this.signOut}>
+              RETRY
+            </ButtonCircle>
+          </Link>
+        )}
       </Container>
     );
   }
 }
+
+Callback.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  state: PropTypes.shape({
+    login: PropTypes.bool,
+    songs: PropTypes.array,
+    user: PropTypes.object,
+    currSong: PropTypes.object,
+    token: PropTypes.string,
+    error: PropTypes.object
+  }).isRequired
+};
 
 const mapStateToProps = state => ({ state });
 
