@@ -2,7 +2,7 @@ import { handleActions } from "redux-actions";
 
 export default handleActions(
   {
-    SET_SONGS: (state, action) => [...action.payload],
+    FETCH_USER_DATA: (state, action) => [...action.payload[1].items],
     SIGN_OUT_SUCCESS: (state, action) => []
   },
   []
