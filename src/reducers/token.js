@@ -1,15 +1,9 @@
-import { TOKEN_SET } from "../actions/token";
-import { SIGN_OUT_SUCCESS } from "../actions/shared";
+import { handleActions } from "redux-actions";
 
-const token = (state = "", action) => {
-  switch (action.type) {
-    case TOKEN_SET:
-      return action.token;
-    case SIGN_OUT_SUCCESS:
-      return "";
-    default:
-      return state;
-  }
-};
-
-export default token;
+export default handleActions(
+  {
+    TOKEN_SET: (state, action) => action.payload,
+    SIGN_OUT_SUCCESS: (state, action) => ""
+  },
+  ""
+);

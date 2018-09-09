@@ -4,10 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Container, Heading, Text, Toolbar, ButtonOutline, ButtonCircle } from "rebass";
 import { setToken } from "../actions/token";
-import { signInSuccess, signInError, signOutSuccess } from "../actions/shared";
-import { getUserInfo, getUserSongs } from "../api/spotify-api";
-import { setUser } from "../actions/user";
-import { setUserSongs } from "../actions/songs";
+import { signInSuccess, signInError, signOutSuccess, fetchUserData } from "../actions/shared";
 import { setCurrSong } from "../actions/current-song";
 
 class Callback extends React.Component {
@@ -41,12 +38,7 @@ class Callback extends React.Component {
       }
     };
 
-    Promise.all([getUserInfo(options), getUserSongs(options)])
-      .then(data => {
-        this.props.dispatch(setUser(data[0]));
-        this.props.dispatch(setUserSongs(data[1].items));
-      })
-      .catch(err => this.props.dispatch(signInError(err)));
+    this.props.dispatch(fetchUserData(options));
   };
   signOut = () => {
     this.props.dispatch(signOutSuccess());
@@ -54,7 +46,9 @@ class Callback extends React.Component {
     this.pausePreview();
   };
   pausePreview = () => {
-    this.audio.pause();
+    if (this.audio) {
+      this.audio.pause();
+    }
     this.props.dispatch(setCurrSong({}));
   };
   playPreview = e => {

@@ -1,5 +1,7 @@
+import { createAction } from "redux-actions";
+
 const TOKEN_SET = "TOKEN_SET";
 
-const setToken = token => ({ type: TOKEN_SET, token });
+const setToken = createAction(TOKEN_SET);
 
 export { TOKEN_SET, setToken };

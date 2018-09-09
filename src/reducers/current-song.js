@@ -1,15 +1,9 @@
-import { SET_SONG } from "../actions/current-song";
-import { SIGN_OUT_SUCCESS } from "../actions/shared";
+import { handleActions } from "redux-actions";
 
-const currSong = (state = {}, action) => {
-  switch (action.type) {
-    case SET_SONG:
-      return action.song;
-    case SIGN_OUT_SUCCESS:
-      return {};
-    default:
-      return state;
-  }
-};
-
-export default currSong;
+export default handleActions(
+  {
+    SET_SONG: (state, action) => action.payload,
+    SIGN_OUT_SUCCESS: (state, action) => ({})
+  },
+  {}
+);

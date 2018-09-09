@@ -1,12 +1,8 @@
-import { SIGN_IN_ERROR } from "../actions/shared";
+import { handleActions } from "redux-actions";
 
-const error = (state = "", action) => {
-  switch (action.type) {
-    case SIGN_IN_ERROR:
-      return action.error;
-    default:
-      return state;
-  }
-};
-
-export default error;
+export default handleActions(
+  {
+    SIGN_IN_ERROR: (state, action) => action.payload
+  },
+  ""
+);

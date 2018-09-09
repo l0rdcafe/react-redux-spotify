@@ -23,4 +23,9 @@ const getUserSongs = async options => {
   }
 };
 
-export { getUserInfo, getUserSongs };
+const getUserData = async options => {
+  const result = await Promise.all([getUserInfo(options), getUserSongs(options)]);
+  return result;
+};
+
+export default getUserData;
