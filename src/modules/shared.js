@@ -21,4 +21,4 @@ const { signInSuccess, signInError, signOutSuccess, fetchUserData } = createActi
   SIGN_OUT_SUCCESS
 );
 
-export { SIGN_IN_SUCCESS, SIGN_IN_ERROR, SIGN_OUT_SUCCESS, signInSuccess, signInError, signOutSuccess, fetchUserData };
+export { SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS, signInSuccess, signInError, signOutSuccess, fetchUserData };

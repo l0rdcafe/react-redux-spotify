@@ -1,4 +1,4 @@
-import { SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from "../actions/shared";
+import { SIGN_IN_SUCCESS, SIGN_OUT_SUCCESS } from "./shared";
 
 const login = (state = false, action) => {
   switch (action.type) {

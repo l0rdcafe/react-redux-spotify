@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Container, Heading, Text, Toolbar, ButtonOutline, ButtonCircle } from "rebass";
-import { setToken } from "../actions/token";
-import { signInSuccess, signInError, signOutSuccess, fetchUserData } from "../actions/shared";
-import { setCurrSong } from "../actions/current-song";
+import { setToken } from "../modules/token";
+import { signInSuccess, signInError, signOutSuccess, fetchUserData } from "../modules/shared";
+import { setCurrSong } from "../modules/current-song";
 
 class Callback extends React.Component {
   componentDidMount() {
@@ -63,7 +63,7 @@ class Callback extends React.Component {
 
     this.audio = new Audio(song.track.preview_url);
     this.audio.play();
-    this.props.dispatch(setCurrSong({ name, artist }));
+    this.props.dispatch(setCurrSong({ name, artist: artist.trim() }));
   };
   render() {
     const { display_name: displayName } = this.props.state.user;
@@ -99,7 +99,7 @@ class Callback extends React.Component {
               id={song.track.id}
             >
               {currSong.name === song.track.name &&
-              currSong.artist === song.track.artists.reduce((a, b) => `${a} ${b.name}`, "")
+              currSong.artist === song.track.artists.reduce((a, b) => `${a} ${b.name}`, "").trim()
                 ? "Pause"
                 : "Play"}{" "}
               Preview

@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import promiseMiddleware from "redux-promise";
 import logger from "redux-logger";
 import "./index.css";
-import reducer from "./reducers";
+import reducer from "./modules/index";
 import App from "./components/app";
 import Callback from "./components/callback";
 
