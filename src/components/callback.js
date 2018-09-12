@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Container, Heading, Text, Toolbar, ButtonOutline, ButtonCircle } from "rebass";
+import Loading from "./loading";
 import { setToken } from "../modules/token";
 import { signInSuccess, signInError, signOutSuccess, fetchUserData } from "../modules/shared";
 import { setCurrSong } from "../modules/current-song";
@@ -74,7 +75,7 @@ class Callback extends React.Component {
     } else if (error) {
       heading = error.message;
     } else {
-      heading = "Loading...";
+      heading = <Loading />;
     }
     return (
       <Container p={4}>
